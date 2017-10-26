@@ -1,8 +1,9 @@
-import React from 'react';
-// react 라이브러리를 불러왔다.(코어 라이브러리)
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
+import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 
 // YouTube Data API v3 사용자 인증 키
 // $ npm install --save youtube-api-search
@@ -12,14 +13,52 @@ const API_KEY = 'AIzaSyCjFQtFxm-VbzeEPGOURRoAbDcVk7O0jWc';
 // 새 컴포넌트. 
 // Create a new component. This component should produce
 // some HTML
-const App = () => {
-  return (
-    <div>
-      <SearchBar />
-    </div>
-  );
-  // const : ES6 표현 중 하나 이전에는 변수 선언에 var 를 사용 -> const로 선언한 변수는 절대로 변하지 않는 상수. 재할당 되지 않는다.
-  // JSX : 부분적인 템플릿 혹은 변형된 자바스크립트 표면적으로 보이지 않는 자바스크립트
+// const App = () => {
+//   return (
+//     <div>
+//       <SearchBar />
+//     </div>
+//   );
+//   // const : ES6 표현 중 하나 이전에는 변수 선언에 var 를 사용 -> const로 선언한 변수는 절대로 변하지 않는 상수. 재할당 되지 않는다.
+//   // JSX : 부분적인 템플릿 혹은 변형된 자바스크립트 표면적으로 보이지 않는 자바스크립트
+// }
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      videos: [],
+      selectedVideo: null 
+    };
+
+    this.videoSearch('surfboards');
+
+  }
+  
+  videoSearch(term) {
+    YTSearch({key: API_KEY, term: term}, (videos) => {
+      // console.log(data);
+      // this.setState({videos: videos});
+      // ES6 Syntax sugar 키와 변수 이름이 같을 때
+      this.setState({ 
+        videos: videos,
+        selectedVideo: videos[0] 
+      });
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <SearchBar onSearchTermChange={term => this.videoSearch(term)} />
+        <VideoDetail video={this.state.selectedVideo}/>
+        <VideoList 
+          onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+          videos={this.state.videos} />
+      </div>
+    );
+  }
 }
 
 // 리액트야 내가 만든 컴포넌트를 html로 넣어줘
