@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
@@ -49,6 +50,9 @@ class App extends Component {
   }
 
   render() {
+    // lodash를 이용하여 검색 반영 느리게하기
+    const videoSearch = _.debounce((term) => {this.videoSearch(term)}, 300)
+
     return (
       <div>
         <SearchBar onSearchTermChange={term => this.videoSearch(term)} />
