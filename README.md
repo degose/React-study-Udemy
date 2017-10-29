@@ -7,8 +7,11 @@
 - [GoogleAPI](https://console.developers.google.com/)
 
 ### React 
-branch -> section1,2
+- section-1,2
+- google API를 이용하여 검색어에 해당되는 동영상 불러오기 실습
 
 ### Redux
-branch -> master
+- section-3,4
+- react-redux를 이용하여 리듀서, 컨테이너, 액션 학습
+- book-list와 클릭한 book-detail을 불러오기 실습
 
