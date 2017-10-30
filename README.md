@@ -10,8 +10,13 @@
 - section-1,2
 - google API를 이용하여 검색어에 해당되는 동영상 불러오기 실습
 
-### Redux
+### Redux-state
 - section-3,4
 - react-redux를 이용하여 리듀서, 컨테이너, 액션 학습
 - book-list와 클릭한 book-detail을 불러오기 실습
+
+### Redux-middleware
+- section-5
+- 링크: http://openweathermap.org/forecast5
+- Redux promise npm: https://www.npmjs.com/package/redux-promise
 

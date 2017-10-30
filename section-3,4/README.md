@@ -1,25 +1,56 @@
-# ReduxSimpleStarter
+# Redux
 
-Interested in learning [Redux](https://www.udemy.com/react-redux/)?
+- 참고: https://taegon.kim/archives/5288
+- 공식문서(한글): https://deminoth.github.io/redux/
 
-### Getting Started
+### MVC 아키텍처
+- 컨트롤러(Controller)는 모델(Model)의 데이터를 조회하거나 업데이트하는 역할을 하며, 모델(Model)의 변화는 뷰(View)에 반영한다. 또한 사용자는 뷰를 통해 데이터를 입력하여 모델에 영향을 준다.
+- `Controller` => `Model` <=> `View`
+- 단점: 대규모 애플리케이션에서는 MVC가 너무 복잡해진다. 
 
-There are two methods for getting started with this repo.
+### Flux 아키텍처
+- 단방향 데이터 흐름(unidirectional data flow)
+- `Action` => `Dispatcher` => `Store` => `View`
+- 여기서 View는 MVC의 뷰와는 달리 스토어에서 데이터를 가져오는 한편 데이터를 자식 뷰로 전달하기도 하는 일종의 뷰-컨트롤러로 보아야 한다.
 
-#### Familiar with Git?
-Checkout this repo, install dependencies, then start the gulp process with the following:
+#### Dispatcher
+- Flux 애플리케이션의 모든 데이터 흐름을 관리하는 허브
+- 액션이 발생하면 디스패처로 메시지(액션 객체)가 전달되고 디스패처는 디스패처에 등록된 콜백 함수를 통해 이 메시지를 스토어에 전달한다.
+- 다른 구성요소와 달리 디스패처는 전체 애플리케이션에서 한 개의 인스턴스만 사용한다.
 
-```
-> git clone https://github.com/StephenGrider/ReduxSimpleStarter.git
-> cd ReduxSimpleStarter
-> npm install
-> npm start
-```
+#### Action
+- 디스패처의 특정 메소드 실행하면 스토어에 변화를 일으킬 수 있는데, 이 메소드를 호출할 때는 데이터 묶음을 인수로 전달한다. 이 데이터 묶음을 액션이라 한다.
+- 디스패처에 전달할 액션 객체는 액션 생성자(Action creator)라는 함수 또는 메서드를 통해 만들어진다.
+- 액션은 액션 타입 또는 액션 아이디라 부르는 고유한 키와 관련 데이터를 포함하는 객체로 만들어진다.
+- 뷰에서는 액션 생성자를 실행하여 액션을 만들고 액션은 디스패처로 전달되고 디스패처는 액션의 데이터를 스토어로 전달한다.
 
-#### Not Familiar with Git?
-Click [here](https://github.com/StephenGrider/ReactStarter/releases) then download the .zip file.  Extract the contents of the zip file, then open your terminal, change to the project directory, and:
+#### Store
+- 스토어는 애플리케이션의 상태를 저장한다.
+- MVC 패턴의 Model과 유사하지만 Flux의 스토어는 상태를 다룬다는 개념으로 접근해야 하므로 무엇이든 저장할 수 있다. 대체로 단순한 자바스크립트 Object로 구성된다.
+- 디스패처로부터 메시지를 수신받기 위해서 콜백함수를 디스패치에 등록해야 한다. 콜백함수에서는 함수에 전달된 메시지(액션 객체)에 따라 특정 동작을 수행한다.
 
-```
-> npm install
-> npm start
-```
+#### View
+- Flux에서의 뷰는 MVC의 뷰와는 달리 화면을 표시하는 것은 물론 컨트롤러의 성격도 가진다.
+- 컨트롤러-뷰(controller-view)는 중첩된 뷰 레이어의 최상위 뷰는 스토어에서 데이터를 가져와 자식 뷰로 배분하는 역할을 한다.
+- 자식 뷰에서는 직접 데이터를 가져오는 대신 props 형태로 상위 뷰에서 전달받는 방식을 주로 사용한다.(필요에 다라 직접 가져오기도 함)
+- 뷰는 관련 스토어의 변경 사항을 감지할 수 있는 이벤트 리스너를 스토어에 등록하고, 스토어에 변경 사항이 발생하면 이를 뷰에 반영한다.
+
+### Redux
+- React와 함께 많이 사용되지만 의존성이 없어 React와 상관없이 독립적으로 사용할 수 있다.
+
+#### Action
+- 액션은 액션타입 또는 액션 아이디를 상수로 작성한 후 액션 생성자 함수를 호출하는 방식으로 작성한다.
+- Flux에서는 액션 생성자가 디스패처를 호출하는 작업도 한다. 하지만 Redux의 액션 생성자는 만에 하나라도 있을 수 있는 부작용을 없애기 위해 액션을 만드는 역할만 담당한다.
+
+#### Dispatcher
+- Redux는 디스패처를 명시적으로 생성하지 않고도 Flux를 구현할 수 있도록 작성되었으므로 디스패처를 생략할 수 있다.
+- 실제 디스패치 동작은 스토어의 dispatch 메소드를 호출하여 실행한다.
+
+#### Reducer
+- Flux 애플리케이션에서 스토어 객체를 업데이트하는 콜백 함수와 하는 역할이 비슷하다.
+- 유의 사항
+  - 첫 번째 인수로 전달받은 state는 수정하면 안된다. 상태를 수정할 때는 반드시 Object.assign 등을 사용하여 새로운 객체를 만들어서 반환해야 한다.
+  - default 케이스에서 기존 state를 반환해야 한다. 전달받은 액션 객체를 이 리듀서에서 처리하지 못하는 때를 대비해 default 케이스에서는 반드시 인수로 전달받은 state를 그대로 반환해야 한다.
+
+#### Store
+- 리듀서를 만들었다면 스토어는 이미 거의 작성된 것고 다름없다. 스토어는 redux 패키지의 createStore함수에 리듀서 함수와 초기 상태를 전달하여 만들기 때문이다.(초기 상태는 생략 가능하다)
