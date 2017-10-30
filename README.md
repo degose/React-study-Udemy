@@ -19,4 +19,4 @@
 - section-5
 - 링크: http://openweathermap.org/forecast5
 - Redux promise npm: https://www.npmjs.com/package/redux-promise
-
+- weather API를 이용하여 지역을 검색하여 해당 지역의 날씨 정보를 가져오기 실습
