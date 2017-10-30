@@ -23,4 +23,4 @@
 - react-sparkline, react-google-maps 라이브러리 적용
 
 ### React Router +  Redux Form
-- section-6
+- [section-6](https://github.com/degose/React-study-Udemy/tree/master/section-6)
