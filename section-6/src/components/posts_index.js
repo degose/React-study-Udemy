@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { bindActionCreators} from 'redux';
 import { fetchPosts } from '../actions/index';
+import { Link } from 'react-router';
+// 링크태그 -> 실제 링크처럼 작용하고, anchor 태그랑 엮을 필요가 없고, 다른 라우트나 어플리케이션과 연결할 필요가 없다.
 
 // export default () => {
 //   return <div>List of Blog posts</div>
@@ -18,7 +20,13 @@ class PostsIndex extends Component {
 
   render() {
     return (
-      <div>List of blog posts</div>
+      <div>
+        <div className="text-xs-right">
+          <Link to="/posts/new" className="btn btn-primary">
+            Add a Post
+          </Link>
+        </div>
+      </div>
     )
   }
 }
