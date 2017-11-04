@@ -1,4 +1,3 @@
-// import _ from "lodash";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { bindActionCreators} from 'redux';
@@ -6,9 +5,6 @@ import { fetchPosts } from '../actions/index';
 import { Link } from 'react-router';
 // 링크태그 -> 실제 링크처럼 작용하고, anchor 태그랑 엮을 필요가 없고, 다른 라우트나 어플리케이션과 연결할 필요가 없다.
 
-// export default () => {
-//   return <div>List of Blog posts</div>
-// }
 
 class PostsIndex extends Component {
   componentWillMount() {
@@ -20,7 +16,6 @@ class PostsIndex extends Component {
   }
 
   renderPosts() {
-    // return _.map(this.props.posts, post => {
     return this.props.posts.map((post) => {
       return (
         <li className="list-group-item" key={post.id}>
