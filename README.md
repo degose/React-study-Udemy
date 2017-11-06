@@ -24,3 +24,9 @@
 
 ### React Router +  Redux Form
 - [section-6](https://github.com/degose/React-study-Udemy/tree/master/section-6)
+- post create, fetch, delete 실습
+
+### 랠리 코딩 
+- [section-7]()
+- Redux Thunk
+- Redux + firebase
